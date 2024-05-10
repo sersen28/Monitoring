@@ -33,7 +33,7 @@
 				<RowDefinition Height="1" />
 				<RowDefinition Height="40" />
 				<RowDefinition Height="1" />
-				<RowDefinition Height="40" />
+				<RowDefinition Height="50" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="90" />
@@ -185,13 +185,11 @@
 				Grid.Row="10"
 				Grid.Column="0"
 				Grid.ColumnSpan="2"
-				Height="30"
+				Height="40"
+				Margin="0,10,0,0"
 				Command="{Binding ButtonCommand}"
-				CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=Self}}">
-				<ToggleButton.Template>
-					<ControlTemplate TargetType="{x:Type ToggleButton}" />
-				</ToggleButton.Template>
-			</ToggleButton>
+				CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=Self}}"
+				Style="{StaticResource SerialCommunicationButton}" />
 		</Grid>
 	</Border>
 </UserControl>
