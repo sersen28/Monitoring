@@ -10,26 +10,38 @@ namespace SerialModule.ViewModels
 	{
 		private readonly SerialCommunicationService _serialCommunicationService;
 
-		public ReadOnlyReactivePropertySlim<SerialPort?> Port { get; set; }
+		#region 현재 연결된 시리얼 포트 정보
 		public ReadOnlyReactivePropertySlim<bool> IsConnected { get; set; }
+		public ReadOnlyReactivePropertySlim<string?> CurrentPortName { get; set; }
+		public ReadOnlyReactivePropertySlim<int> CurrentBaudrate { get; set; }
+		public ReadOnlyReactivePropertySlim<int> CurrentDataBit { get; set; }
+		public ReadOnlyReactivePropertySlim<Parity> CurrentParityBit { get; set; }
+		public ReadOnlyReactivePropertySlim<StopBits> CurrentStopBit { get; set; }
+		#endregion
 
-		public ReactiveProperty<string> ComPort { get; set; } = new(string.Empty);
+		#region 유저가 설정한 시리얼 포트 정보
+		public ReactiveProperty<string> PortName { get; set; } = new(string.Empty);
 		public ReactiveProperty<int> Baudrate { get; set; } = new();
 		public ReactiveProperty<int> DataBit { get; set; } = new();
 		public ReactiveProperty<Parity> ParityBit { get; set; } = new(Parity.None);
 		public ReactiveProperty<StopBits> StopBit { get; set; } = new(StopBits.None);
+		#endregion
 
+		public ReactiveCollection<string> SerialPortCollection { get; set; } = new();
 		public ReactiveCommand<bool> ButtonCommand { get; set; } = new();
-		public ReactiveCollection<string> PortName { get; set; } = new();
 
 		public SerialSettingViewModel(SerialCommunicationService serialCommunicationService)
 		{
 			this._serialCommunicationService = serialCommunicationService;
 
-			this.Port = this._serialCommunicationService.Port.ToReadOnlyReactivePropertySlim();
 			this.IsConnected = this._serialCommunicationService.IsConnected.ToReadOnlyReactivePropertySlim();
+			this.CurrentPortName = this._serialCommunicationService.CurrentPortName.ToReadOnlyReactivePropertySlim();
+			this.CurrentBaudrate = this._serialCommunicationService.CurrentBaudrate.ToReadOnlyReactivePropertySlim();
+			this.CurrentDataBit = this._serialCommunicationService.CurrentDataBit.ToReadOnlyReactivePropertySlim();
+			this.CurrentParityBit = this._serialCommunicationService.CurrentParityBit.ToReadOnlyReactivePropertySlim();
+			this.CurrentStopBit = this._serialCommunicationService.CurrentStopBit.ToReadOnlyReactivePropertySlim();
 
-			this.PortName.AddRangeOnScheduler(SerialPort.GetPortNames());
+			this.SerialPortCollection.AddRangeOnScheduler(SerialPort.GetPortNames());
 			this.ButtonCommand.Subscribe((isConnected) =>
 			{
 				if (this.IsConnected.Value)
@@ -39,7 +51,7 @@ namespace SerialModule.ViewModels
 				else
 				{
 					this._serialCommunicationService.Connect(
-							portName: this.ComPort.Value,
+							portName: this.PortName.Value,
 							baudrate: this.Baudrate.Value,
 							dataBit: this.DataBit.Value,
 							parity: this.ParityBit.Value,

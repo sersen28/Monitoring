@@ -7,17 +7,32 @@ namespace SerialModule.Services
 {
 	public class SerialCommunicationService
 	{
-		public ReactivePropertySlim<SerialPort> Port { get; set; } = new();
-		public ReactivePropertySlim<bool> IsConnected { get; set; } = new(false);
+		public const int HistoryLength = 100;
 
-		public SerialCommunicationService() 
+		private SerialPort _serialPort = new();
+
+		public ReactivePropertySlim<bool> IsConnected { get; set; } = new(false);
+		public ReactiveCollection<string> History { get; set; } = new();
+
+		public ReactiveProperty<string> CurrentPortName { get; set; } = new(string.Empty);
+		public ReactiveProperty<int> CurrentBaudrate { get; set; } = new();
+		public ReactiveProperty<int> CurrentDataBit { get; set; } = new();
+		public ReactiveProperty<Parity> CurrentParityBit { get; set; } = new(Parity.None);
+		public ReactiveProperty<StopBits> CurrentStopBit { get; set; } = new(StopBits.None);
+
+		public SerialCommunicationService()
 		{
-			this.Port.Value = new SerialPort();
+		}
+
+		private void DataReceived(object sender, SerialDataReceivedEventArgs e)
+		{
+			var data = this._serialPort.ReadExisting();
+			this.History.AddOnScheduler(data);
 		}
 
 		public void Connect(string portName, int baudrate, int dataBit, Parity parity, StopBits stopBits)
 		{
-			if (this.Port.Value.IsOpen)
+			if (this._serialPort.IsOpen)
 			{
 				MessageBox.Show("Connect Failed", "Error");
 				return;
@@ -25,13 +40,19 @@ namespace SerialModule.Services
 
 			try
 			{
-				this.Port.Value.PortName = portName;
-				this.Port.Value.BaudRate = baudrate;
-				this.Port.Value.DataBits = dataBit;
-				this.Port.Value.Parity = parity;
-				this.Port.Value.StopBits = stopBits;
+				this._serialPort.PortName = portName;
+				this._serialPort.BaudRate = baudrate;
+				this._serialPort.DataBits = dataBit;
+				this._serialPort.Parity = parity;
+				this._serialPort.StopBits = stopBits;
+				this._serialPort.Open();
 
-				this.Port.Value.Open();
+				this.CurrentPortName.Value = portName;
+				this.CurrentBaudrate.Value = baudrate;
+				this.CurrentDataBit.Value = dataBit;
+				this.CurrentParityBit.Value = parity;
+				this.CurrentStopBit.Value = stopBits;
+
 				this.IsConnected.Value = true;
 			}
 			catch
@@ -42,7 +63,7 @@ namespace SerialModule.Services
 
 		public void Disconnect()
 		{
-			if (this.Port.Value.IsOpen is false)
+			if (this._serialPort.IsOpen is false)
 			{
 				MessageBox.Show("Disonnect Failed", "Error");
 				return;
@@ -50,7 +71,7 @@ namespace SerialModule.Services
 
 			try
 			{
-				this.Port.Value.Close();
+				this._serialPort.Close();
 				this.IsConnected.Value = false;
 			}
 			catch

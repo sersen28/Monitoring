@@ -99,36 +99,37 @@
 				Grid.Row="0"
 				Grid.Column="1"
 				Style="{StaticResource SerialStatusText}"
-				Text="{Binding Port.Value.PortName}" />
+				Text="{Binding CurrentPortName.Value}" />
 			<TextBlock
 				Grid.Row="2"
 				Grid.Column="1"
 				Style="{StaticResource SerialStatusText}"
-				Text="{Binding Port.Value.BaudRate}" />
+				Text="{Binding CurrentBaudrate.Value}" />
 			<TextBlock
 				Grid.Row="4"
 				Grid.Column="1"
 				Style="{StaticResource SerialStatusText}"
-				Text="{Binding Port.Value.DataBits}" />
+				Text="{Binding CurrentDataBit.Value}" />
 			<TextBlock
 				Grid.Row="6"
 				Grid.Column="1"
 				Style="{StaticResource SerialStatusText}"
-				Text="{Binding Port.Value.Parity}" />
+				Text="{Binding CurrentParityBit.Value}" />
 			<TextBlock
 				Grid.Row="8"
 				Grid.Column="1"
 				Style="{StaticResource SerialStatusText}"
-				Text="{Binding Port.Value.StopBits}" />
+				Text="{Binding CurrentStopBit.Value}" />
 
-
+			<!--  Setting Serial Port  -->
 			<ComboBox
 				Grid.Row="0"
 				Grid.Column="1"
 				Height="30"
+				ItemsSource="{Binding SerialPortCollection}"
 				SelectedIndex="0"
 				Style="{StaticResource SerialComboBox}"
-				Text="{Binding ComPort.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				Text="{Binding PortName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox
 				Grid.Row="2"
 				Grid.Column="1"
@@ -181,6 +182,7 @@
 				<ComboBoxItem Content="OnePointFive" />
 			</ComboBox>
 
+			<!--  Apply Button  -->
 			<ToggleButton
 				Grid.Row="10"
 				Grid.Column="0"
