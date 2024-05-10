@@ -1,0 +1,6 @@
+.vs/
+Monitoring/bin/Debug/net6.0-windows/Microsoft.Xaml.Behaviors.dll
+Monitoring/obj/
+Monitoring/bin/
+SerialModule/obj/
+SerialModule/bin/

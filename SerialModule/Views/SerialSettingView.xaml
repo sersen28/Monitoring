@@ -1,0 +1,197 @@
+﻿<UserControl
+	x:Class="SerialModule.Views.SerialSettingView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:prism="http://prismlibrary.com/"
+	Width="Auto"
+	Height="Auto"
+	HorizontalAlignment="Left"
+	VerticalAlignment="Top"
+	prism:ViewModelLocator.AutoWireViewModel="True">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="../Resources/ColorDictionary.xaml" />
+				<ResourceDictionary Source="../Resources/StyleDictionary.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Border
+		Background="{StaticResource SerialBackgroundColor}"
+		BorderBrush="{StaticResource SerialBorderColor}"
+		BorderThickness="2"
+		CornerRadius="5">
+		<Grid Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition Height="1" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="1" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="1" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="1" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="1" />
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="90" />
+				<ColumnDefinition Width="110" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Splitter  -->
+			<Rectangle
+				Grid.Row="1"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Fill="{StaticResource SerialSplitterColor}" />
+			<Rectangle
+				Grid.Row="3"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Fill="{StaticResource SerialSplitterColor}" />
+			<Rectangle
+				Grid.Row="5"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Fill="{StaticResource SerialSplitterColor}" />
+			<Rectangle
+				Grid.Row="7"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Fill="{StaticResource SerialSplitterColor}" />
+			<Rectangle
+				Grid.Row="9"
+				Grid.ColumnSpan="2"
+				Height="1"
+				Fill="{StaticResource SerialSplitterColor}" />
+
+			<!--  Label  -->
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				Style="{StaticResource SerialLabelText}"
+				Text="COM Port" />
+			<TextBlock
+				Grid.Row="2"
+				Grid.Column="0"
+				Style="{StaticResource SerialLabelText}"
+				Text="Baudrate" />
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="0"
+				Style="{StaticResource SerialLabelText}"
+				Text="Data Bit" />
+			<TextBlock
+				Grid.Row="6"
+				Grid.Column="0"
+				Style="{StaticResource SerialLabelText}"
+				Text="Parity Bit" />
+			<TextBlock
+				Grid.Row="8"
+				Grid.Column="0"
+				Style="{StaticResource SerialLabelText}"
+				Text="Stop Bit" />
+
+			<!--  Display Status  -->
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="1"
+				Style="{StaticResource SerialStatusText}"
+				Text="{Binding Port.Value.PortName}" />
+			<TextBlock
+				Grid.Row="2"
+				Grid.Column="1"
+				Style="{StaticResource SerialStatusText}"
+				Text="{Binding Port.Value.BaudRate}" />
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="1"
+				Style="{StaticResource SerialStatusText}"
+				Text="{Binding Port.Value.DataBits}" />
+			<TextBlock
+				Grid.Row="6"
+				Grid.Column="1"
+				Style="{StaticResource SerialStatusText}"
+				Text="{Binding Port.Value.Parity}" />
+			<TextBlock
+				Grid.Row="8"
+				Grid.Column="1"
+				Style="{StaticResource SerialStatusText}"
+				Text="{Binding Port.Value.StopBits}" />
+
+
+			<ComboBox
+				Grid.Row="0"
+				Grid.Column="1"
+				Height="30"
+				SelectedIndex="0"
+				Style="{StaticResource SerialComboBox}"
+				Text="{Binding ComPort.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox
+				Grid.Row="2"
+				Grid.Column="1"
+				Height="30"
+				SelectedIndex="0"
+				Style="{StaticResource SerialComboBox}"
+				Text="{Binding Baudrate.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBoxItem Content="2400" />
+				<ComboBoxItem Content="4800" />
+				<ComboBoxItem Content="9600" />
+				<ComboBoxItem Content="19200" />
+				<ComboBoxItem Content="38400" />
+				<ComboBoxItem Content="57600" />
+				<ComboBoxItem Content="115200" />
+			</ComboBox>
+
+			<ComboBox
+				Grid.Row="4"
+				Grid.Column="1"
+				Height="30"
+				SelectedIndex="0"
+				Style="{StaticResource SerialComboBox}"
+				Text="{Binding DataBit.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBoxItem Content="7" />
+				<ComboBoxItem Content="8" />
+			</ComboBox>
+
+			<ComboBox
+				Grid.Row="6"
+				Grid.Column="1"
+				Height="30"
+				Style="{StaticResource SerialComboBox}"
+				Text="{Binding ParityBit.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBoxItem Content="None" />
+				<ComboBoxItem Content="Odd" />
+				<ComboBoxItem Content="Even" />
+				<ComboBoxItem Content="Mark" />
+				<ComboBoxItem Content="Space" />
+			</ComboBox>
+
+			<ComboBox
+				Grid.Row="8"
+				Grid.Column="1"
+				Height="30"
+				Style="{StaticResource SerialComboBox}"
+				Text="{Binding StopBit.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBoxItem Content="None" />
+				<ComboBoxItem Content="One" />
+				<ComboBoxItem Content="Two" />
+				<ComboBoxItem Content="OnePointFive" />
+			</ComboBox>
+
+			<ToggleButton
+				Grid.Row="10"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Height="30"
+				Command="{Binding ButtonCommand}"
+				CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=Self}}">
+				<ToggleButton.Template>
+					<ControlTemplate TargetType="{x:Type ToggleButton}" />
+				</ToggleButton.Template>
+			</ToggleButton>
+		</Grid>
+	</Border>
+</UserControl>
