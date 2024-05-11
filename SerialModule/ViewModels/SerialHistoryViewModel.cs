@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Reactive.Bindings;
 using SerialModule.Services;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,12 @@ namespace SerialModule.ViewModels
 	{
 		private readonly SerialCommunicationService _serialCommunicationService;
 
+		public ReadOnlyReactiveCollection<string> History { get; set; }
+
 		public SerialHistoryViewModel(SerialCommunicationService serialCommunicationService)
 		{
 			this._serialCommunicationService = serialCommunicationService;
+			this.History = _serialCommunicationService.History.ToReadOnlyReactiveCollection();
 		}
 	}
 }

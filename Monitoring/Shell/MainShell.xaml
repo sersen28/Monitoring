@@ -11,6 +11,11 @@
 	Height="450"
 	mc:Ignorable="d">
 	<Grid Background="#303030">
-		<serial:SerialSettingView Margin="5" />
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<serial:SerialSettingView Margin="5" Grid.Column="0"/>
+		<serial:SerialHistoryView Margin="5" Grid.Column="1"/>
 	</Grid>
 </Window>

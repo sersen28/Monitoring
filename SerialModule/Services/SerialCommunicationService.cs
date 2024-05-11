@@ -1,5 +1,7 @@
 ﻿using Reactive.Bindings;
+using SerialModule.Utility;
 using System;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Windows;
 
@@ -22,12 +24,23 @@ namespace SerialModule.Services
 
 		public SerialCommunicationService()
 		{
+			this._serialPort.DataReceived += DataReceived;
+			History.AddOnScheduler("Test");
+			History.AddOnScheduler("Test");
+			History.AddOnScheduler("Test");
+			History.AddOnScheduler("Test");
+			History.AddOnScheduler("Test");
 		}
 
 		private void DataReceived(object sender, SerialDataReceivedEventArgs e)
 		{
-			var data = this._serialPort.ReadExisting();
-			this.History.AddOnScheduler(data);
+			var buffer = new byte[_serialPort.BytesToRead];			
+			this._serialPort.Read(buffer, 0, _serialPort.BytesToRead);
+
+			var record = SerialUtility.ByteArrayToString(buffer, true);
+
+			History.AddRangeOnScheduler(record);
+			Debug.WriteLine(record);
 		}
 
 		public void Connect(string portName, int baudrate, int dataBit, Parity parity, StopBits stopBits)

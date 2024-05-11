@@ -21,10 +21,10 @@ namespace SerialModule.ViewModels
 
 		#region 유저가 설정한 시리얼 포트 정보
 		public ReactiveProperty<string> PortName { get; set; } = new(string.Empty);
-		public ReactiveProperty<int> Baudrate { get; set; } = new();
-		public ReactiveProperty<int> DataBit { get; set; } = new();
-		public ReactiveProperty<Parity> ParityBit { get; set; } = new(Parity.None);
-		public ReactiveProperty<StopBits> StopBit { get; set; } = new(StopBits.None);
+		public ReactiveProperty<int> Baudrate { get; set; } = new(115200);
+		public ReactiveProperty<int> DataBit { get; set; } = new(8);
+		public ReactiveProperty<Parity> ParityBit { get; set; } = new(Parity.Odd);
+		public ReactiveProperty<StopBits> StopBit { get; set; } = new(StopBits.One);
 		#endregion
 
 		public ReactiveCollection<string> SerialPortCollection { get; set; } = new();
